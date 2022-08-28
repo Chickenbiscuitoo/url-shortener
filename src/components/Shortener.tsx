@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import styles from '../styles/Shortener.module.css'
+import { useState } from 'react'
 
 const Shortener: NextPage = () => {
 	return (

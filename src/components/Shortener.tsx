@@ -1,11 +1,13 @@
 import { NextPage } from 'next'
 import styles from '../styles/Shortener.module.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useDataStore from '../store'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const Shortener: NextPage = () => {
 	const { setData, data } = useDataStore()
 
+	const [copied, setCopied] = useState(false)
 	const [userInput, setUserInput] = useState({
 		originalUrl: '',
 		shortUrl: '',
@@ -28,6 +30,15 @@ const Shortener: NextPage = () => {
 		setUserInput({ originalUrl: '', shortUrl: '' })
 	}
 
+	useEffect(() => {
+		if (copied) {
+			const timer = setTimeout(() => {
+				setCopied(false)
+			}, 2000)
+			return () => clearTimeout(timer)
+		}
+	}, [copied])
+
 	return (
 		<>
 			<form onSubmit={handleSubmit} className={styles.container}>
@@ -47,10 +58,20 @@ const Shortener: NextPage = () => {
 					placeholder="short url"
 					className={styles.inputbox}
 				/>
-				<button type="submit" className={styles.btn}>
-					Submit
-				</button>
+				<CopyToClipboard
+					text={shortUrl}
+					onCopy={() => setCopied(true)}
+				>
+					<button type="submit" className={styles.btn}>
+						Submit
+					</button>
+				</CopyToClipboard>
 			</form>
+			{copied && (
+				<div className={styles.copied_container}>
+					<p className={styles.copied}>Copied to Clipboard!</p>
+				</div>
+			)}
 		</>
 	)
 }

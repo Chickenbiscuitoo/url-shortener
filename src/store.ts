@@ -10,7 +10,7 @@ interface Store {
 	setData: (data: data) => void
 }
 
-const useStore = create<Store>((set) => ({
+const useDataStore = create<Store>((set) => ({
 	data: {
 		original_url: '',
 		short_url: '',
@@ -18,4 +18,4 @@ const useStore = create<Store>((set) => ({
 	setData: (data) => set({ data }),
 }))
 
-export default useStore
+export default useDataStore

@@ -5,7 +5,7 @@ import useDataStore from '../store'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const Shortener: NextPage = () => {
-	const { setData, data } = useDataStore()
+	const { setData, createShortUrl } = useDataStore()
 
 	const [copied, setCopied] = useState(false)
 	const [userInput, setUserInput] = useState({
@@ -27,6 +27,7 @@ const Shortener: NextPage = () => {
 			original_url: originalUrl,
 			short_url: shortUrl,
 		})
+		createShortUrl()
 		setUserInput({ originalUrl: '', shortUrl: '' })
 	}
 

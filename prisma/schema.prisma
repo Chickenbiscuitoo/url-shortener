@@ -8,9 +8,9 @@ datasource db {
 }
 
 model urls {
-  id           String   @id
+  id           String   @id @default(cuid())
   original_url String
-  short_url    String
+  short_url    String   @unique
   created_at   DateTime @default(now())
   expires_at   DateTime @default(dbgenerated("(now() + '1 mon'::interval)"))
 }

@@ -12,15 +12,16 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
-	const { query, method } = req
+	const { method } = req
 
 	if (method !== 'POST') {
-		res.status(400).json({ message: 'Only POST method allowed' })
+		return res
+			.status(400)
+			.json({ message: 'Only POST method allowed' })
 	}
 
 	try {
 		const data = schema.parse(req.body)
-		console.log(data)
 		const response = await prisma.urls.create({
 			data: {
 				original_url: data.original_url,
@@ -28,13 +29,13 @@ export default async function handler(
 			},
 		})
 
-		res.status(200).json({ message: response })
+		return res.status(200).json({ message: response })
 	} catch (error) {
 		let message = 'Unknown Error'
 
 		if (error instanceof Error) message = error.message
 		else message = String(error)
 
-		res.status(500).json({ message })
+		return res.status(500).json({ message })
 	}
 }

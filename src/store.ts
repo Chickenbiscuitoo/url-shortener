@@ -24,7 +24,6 @@ const useDataStore = create<Store>((set, get) => ({
 			'http://localhost:3000/api/short',
 			data
 		)
-		console.log(JSON.stringify(response.data))
 	},
 }))
 

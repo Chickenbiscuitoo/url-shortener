@@ -1,5 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../server/db/client'
+import { z } from 'zod'
+
+const schema = z.object({
+	original_url: z.string().min(6).max(255),
+	short_url: z.string().min(2).max(125),
+})
+// { original_url: 'www.instagram.com', short_url: 'ig' }
 
 export default async function handler(
 	req: NextApiRequest,
@@ -11,13 +18,13 @@ export default async function handler(
 		res.status(400).json({ message: 'Only POST method allowed' })
 	}
 
-	console.log(req.body)
-
 	try {
+		const data = schema.parse(req.body)
+		console.log(data)
 		const response = await prisma.urls.create({
 			data: {
-				original_url: req.body.original_url,
-				short_url: req.body.short_url,
+				original_url: data.original_url,
+				short_url: data.short_url,
 			},
 		})
 
@@ -31,5 +38,3 @@ export default async function handler(
 		res.status(500).json({ message })
 	}
 }
-
-// { original_url: 'www.instagram.com', short_url: 'ig' }

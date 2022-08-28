@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { AiFillGithub } from 'react-icons/ai'
+import Shortener from '../components/Shortener'
 
 const Home: NextPage = () => {
 	return (
@@ -17,6 +18,8 @@ const Home: NextPage = () => {
 				<p className={styles.description}>
 					Get started by pasting your url below.
 				</p>
+
+				<Shortener />
 			</main>
 
 			<footer className={styles.footer}>
